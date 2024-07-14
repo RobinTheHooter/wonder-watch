@@ -1,0 +1,14 @@
+.homeroot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.pcard {
+  width: 250px;
+}
+
+.cimg {
+  height: 200px;
+  object-fit: cover;
+}
