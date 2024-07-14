@@ -1,14 +1,21 @@
+import { useRoutes } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
+import routes from "./Routes";
+import "@brainhubeu/react-carousel/lib/style.css";
+
+const Routes = () => {
+  const element = useRoutes(routes);
+  return (
+    <>
+      <Navbar />
+      {element}
+    </>
+  );
+};
 
 function App() {
-  return (
-    <div className="App">
-      <Navbar />
-      <Home />
-    </div>
-  );
+  return <Routes />;
 }
 
 export default App;

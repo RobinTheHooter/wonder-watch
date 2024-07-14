@@ -1,18 +1,21 @@
 import React from "react";
 import { BACKEND_URL } from "../Helpers";
+import { Link } from "react-router-dom";
 
 const Card = ({ id, name, price, description, img }) => {
   return (
-    <div className="card pcard">
-      <div className="card-image">
-        <img className="cimg" src={`${BACKEND_URL + img}`} alt="" />
+    <Link className="pcard" to={`/product/${id}`}>
+      <div className="card">
+        <div className="card-image">
+          <img className="cimg" src={`${BACKEND_URL + img}`} alt="" />
+        </div>
+        <div className="card-content black-text">
+          <span className="card-title truncate">{name}</span>
+          <p className="truncate">{description}</p>
+          <h6 className="green-text">₹ {price}</h6>
+        </div>
       </div>
-      <div className="card-content">
-        <span className="card-title truncate">{name}</span>
-        <p className="truncate">{description}</p>
-        <h6 className="green-text">₹ {price}</h6>
-      </div>
-    </div>
+    </Link>
   );
 };
 
