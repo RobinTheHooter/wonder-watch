@@ -16,6 +16,7 @@ const Home = () => {
         {data.products.data.map(({ id, attributes }) => {
           return (
             <Card
+              key={id}
               id={id}
               name={attributes.name}
               price={attributes.price}

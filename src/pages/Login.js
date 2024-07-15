@@ -1,12 +1,19 @@
 import { useMutation } from "@apollo/client";
 import React, { useState } from "react";
 import { LOGIN_USER } from "../operations/Mutations";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({});
   const [loginUser, { loading, error, data }] = useMutation(LOGIN_USER);
 
   if (loading) return <h1>Logging in...</h1>;
+
+  if (data) {
+    localStorage.setItem("jwt", data.login.jwt);
+    navigate("/");
+  }
 
   const handleChange = (e) => {
     setFormData({
@@ -26,6 +33,7 @@ const Login = () => {
 
   return (
     <div className="container" style={{ maxWidth: "500px" }}>
+      {error && <div className="card-panel red">{error.message}</div>}
       <h3>Login</h3>
       <form onSubmit={handleSubmit}>
         <input
