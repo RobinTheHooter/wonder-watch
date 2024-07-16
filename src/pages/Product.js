@@ -2,9 +2,8 @@ import { useQuery } from "@apollo/client";
 import React from "react";
 import { useParams } from "react-router-dom";
 import { GET_PRODUCT } from "../operations/Queries";
-import Carousel from "@brainhubeu/react-carousel";
+import Carousel from "@itseasy21/react-elastic-carousel";
 import { BACKEND_URL } from "../Helpers";
-// import { useCart } from "react-use-cart";
 
 const Product = () => {
   const { pid } = useParams();
