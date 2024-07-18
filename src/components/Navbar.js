@@ -13,28 +13,26 @@ const Navbar = () => {
       <div className="nav-wrapper #1976d2 blue darken-2">
         <Link to="/">WonderWatch</Link>
         <ul id="nav-mobile" className="right">
+          <li>
+            <Link to={"/cart"}>
+              <i
+                style={{ padding: "0 20px" }}
+                class="material-icons large #0d47a1 blue darken-4"
+              >
+                add_shopping_cart
+              </i>
+            </Link>
+          </li>
           {jwt ? (
-            <>
-              <li>
-                <Link to={"/cart"}>
-                  <i
-                    style={{ padding: "0 20px" }}
-                    class="material-icons large #0d47a1 blue darken-4"
-                  >
-                    add_shopping_cart
-                  </i>
-                </Link>
-              </li>
-              <li>
-                <i
-                  style={{ padding: "0 20px" }}
-                  class="material-icons large red"
-                  onClick={logout}
-                >
-                  logout
-                </i>
-              </li>
-            </>
+            <li>
+              <i
+                style={{ padding: "0 20px" }}
+                class="material-icons large red"
+                onClick={logout}
+              >
+                logout
+              </i>
+            </li>
           ) : (
             <>
               <li>

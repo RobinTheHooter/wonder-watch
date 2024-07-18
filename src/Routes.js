@@ -10,7 +10,7 @@ const routes = [
   { path: "/login", element: <Login /> },
   { path: "/signup", element: <SignUp /> },
   { path: "/product/:pid", element: <Product /> },
-  // { path: "/cart", element: <Cart /> },
+  { path: "/cart", element: <Cart /> },
 ];
 
 export default routes;

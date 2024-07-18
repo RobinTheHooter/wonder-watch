@@ -4,10 +4,12 @@ import { useParams } from "react-router-dom";
 import { GET_PRODUCT } from "../operations/Queries";
 import Carousel from "@itseasy21/react-elastic-carousel";
 import { BACKEND_URL } from "../Helpers";
+import { useCart } from "react-use-cart";
 
 const Product = () => {
   const { pid } = useParams();
-  // const { addItem } = useCart();
+  const { addItem } = useCart();
+
   const { loading, error, data } = useQuery(GET_PRODUCT, {
     variables: {
       productId: pid,
@@ -19,14 +21,14 @@ const Product = () => {
 
   const { name, price, description, images } = data.product.data.attributes;
 
-  // const addToCart = () => {
-  //   addItem({
-  //     id: pid,
-  //     name,
-  //     price,
-  //     img: BACKEND_URL + images.data[0].attributes.url,
-  //   });
-  // };
+  const addToCart = () => {
+    addItem({
+      id: pid,
+      name,
+      price,
+      img: BACKEND_URL + images.data[0].attributes.url,
+    });
+  };
 
   return (
     <div className="container">
@@ -48,9 +50,9 @@ const Product = () => {
           ₹ {price}
         </h5>
         <p>{description}</p>
-        {/* <button className="btn blue" onClick={addToCart}>
+        <button className="btn blue" onClick={addToCart}>
           Add to Cart
-        </button> */}
+        </button>
       </div>
     </div>
   );
