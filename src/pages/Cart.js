@@ -12,6 +12,7 @@ const Cart = () => {
       <div className="container">
         <h4>Payment page</h4>
         <Checkout />
+        <br />
         <button className="btn red" onClick={() => setCheckout(false)}>
           Cancel
         </button>

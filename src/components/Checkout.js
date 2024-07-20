@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { loadStripe } from "@stripe/stripe-js";
 import {
-  PaymentElement,
   Elements,
   useStripe,
   useElements,
+  CardElement,
 } from "@stripe/react-stripe-js";
 import { useCart } from "react-use-cart";
+import { BACKEND_URL } from "../Helpers";
 
 const stripePromise = loadStripe(
   "pk_test_51LlALTSAI4LFiHZe8zpGGMNCGdwtAe5Tcra6x40nfLFdTAMk9MfSlhG2EjFqQsX3zJWnyY7Zd9HZfINgDhivWIPX00Gg6cQhQo"
@@ -15,14 +16,33 @@ const stripePromise = loadStripe(
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
-  const { cartTotal, items } = useCart();
+  const { cartTotal, items, emptyCart } = useCart();
   const [formData, setFormData] = useState({});
+  const [payBtn, setPayBtn] = useState(true);
+  const [paymentProcessing, setPaymentProcessing] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
+  };
+
+  const makePaymentRequest = async (allFormData) => {
+    try {
+      const res = await fetch(`${BACKEND_URL}/api/orders`, {
+        method: "post",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + localStorage.getItem("jwt"),
+        },
+        body: JSON.stringify(allFormData),
+      });
+      return await res.json();
+    } catch (err) {
+      console.log(err);
+      alert("payment failed");
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -32,9 +52,9 @@ const CheckoutForm = () => {
       return;
     }
 
-    const paymentElement = elements.getElement(PaymentElement);
+    const cardElement = elements.getElement(CardElement);
 
-    const payload = await stripe.createToken(paymentElement);
+    const payload = await stripe.createToken(cardElement);
 
     const allFormData = {
       ...formData,
@@ -42,9 +62,15 @@ const CheckoutForm = () => {
       amount: cartTotal,
       items: items,
     };
-
-    console.log(allFormData);
+    setPaymentProcessing(true);
+    await makePaymentRequest(allFormData);
+    setPaymentProcessing(false);
+    emptyCart();
   };
+
+  if (paymentProcessing) {
+    return <h1>Payment is processing...</h1>;
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -76,11 +102,20 @@ const CheckoutForm = () => {
         onChange={handleChange}
         required
       />
-      <PaymentElement />
+      <CardElement
+        onChange={(e) => {
+          if (e.complete) {
+            setPayBtn(false);
+          } else {
+            setPayBtn(true);
+          }
+        }}
+      />
+      <br />
       <button
         className="btn blue"
         type="submit"
-        disabled={!stripe || !elements}
+        disabled={!stripe || !elements || payBtn}
       >
         Pay
       </button>
