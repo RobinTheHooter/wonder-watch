@@ -1,15 +1,16 @@
+/* eslint-disable quotes */
 "use strict";
-const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY);
 
 /**
- * order controller
+ *  order controller
  */
+import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE_SECREY_KEY);
 
 const { createCoreController } = require("@strapi/strapi").factories;
 
 module.exports = createCoreController("api::order.order", ({ strapi }) => ({
   async create(ctx) {
-    console.log(ctx.request.body);
     const { amount, shippingAddress, city, state, pin, token, items } =
       ctx.request.body;
 
