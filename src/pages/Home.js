@@ -2,6 +2,7 @@ import { useQuery } from "@apollo/client";
 import React from "react";
 import { GET_ALL_PRODUCTS } from "../operations/Queries";
 import Card from "../components/Card";
+import Search from "../components/Search";
 
 const Home = () => {
   const { loading, error, data } = useQuery(GET_ALL_PRODUCTS);
@@ -12,6 +13,7 @@ const Home = () => {
   }
   return (
     <div>
+      <Search />
       <div className="homeroot">
         {data.products.data.map(({ id, attributes }) => {
           return (

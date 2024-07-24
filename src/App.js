@@ -3,6 +3,7 @@ import { useRoutes } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/Navbar";
 import routes from "./Routes";
+import Category from "./components/Category";
 
 const Routes = () => {
   const element = useRoutes(routes);
@@ -10,6 +11,7 @@ const Routes = () => {
     <>
       <Navbar />
       {element}
+      <Category />
     </>
   );
 };

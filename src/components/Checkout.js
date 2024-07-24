@@ -20,6 +20,8 @@ const CheckoutForm = () => {
   const [formData, setFormData] = useState({});
   const [payBtn, setPayBtn] = useState(true);
   const [paymentProcessing, setPaymentProcessing] = useState(false);
+  const [error, setError] = useState(false);
+  const [done, setDone] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -41,6 +43,7 @@ const CheckoutForm = () => {
       return await res.json();
     } catch (err) {
       console.log(err);
+      setError(true);
       alert("payment failed");
     }
   };
@@ -64,10 +67,13 @@ const CheckoutForm = () => {
     };
     setPaymentProcessing(true);
     await makePaymentRequest(allFormData);
+    setDone(true);
     setPaymentProcessing(false);
     emptyCart();
   };
 
+  if (error) return <h1 className="red-text">Payment failed</h1>;
+  if (done) return <h1 className="green-text">Payment done successfully</h1>;
   if (paymentProcessing) {
     return <h1>Payment is processing...</h1>;
   }
