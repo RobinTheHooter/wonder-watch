@@ -85,3 +85,16 @@ export const GET_PRODUCT_BY_CATEGORY = gql`
     }
   }
 `;
+
+export const GET_PRODUCT_BY_NAME = gql`
+  query Products($filters: ProductFiltersInput) {
+    products(filters: $filters) {
+      data {
+        id
+        attributes {
+          name
+        }
+      }
+    }
+  }
+`;
