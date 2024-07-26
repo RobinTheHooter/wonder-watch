@@ -19,3 +19,13 @@
   right: 20px;
   z-index: 999;
 }
+
+.searchResults {
+  height: 200px;
+  overflow-y: auto;
+}
+
+.pages {
+  display: flex;
+  justify-content: center;
+}

@@ -1,11 +1,31 @@
 import { useQuery } from "@apollo/client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { GET_ALL_PRODUCTS } from "../operations/Queries";
 import Card from "../components/Card";
 import Search from "../components/Search";
+import Pagination from "../components/Pagination";
 
 const Home = () => {
-  const { loading, error, data } = useQuery(GET_ALL_PRODUCTS);
+  const [page, setPage] = useState(1);
+  const { loading, error, data, refetch } = useQuery(GET_ALL_PRODUCTS, {
+    variables: {
+      pagination: {
+        page: page,
+        pageSize: 4,
+      },
+    },
+  });
+
+  useEffect(() => {
+    if (page !== 1) {
+      refetch();
+    }
+  }, [page]);
+
+  const updatePage = (page) => {
+    setPage(page);
+  };
+
   if (loading) return <h1>Loading...</h1>;
 
   if (data) {
@@ -28,6 +48,10 @@ const Home = () => {
           );
         })}
       </div>
+      <Pagination
+        pageCount={data.products.meta.pagination.pageCount}
+        updatePage={updatePage}
+      />
     </div>
   );
 };
